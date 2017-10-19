@@ -34,6 +34,8 @@ import android.os.Build
 import android.provider.MediaStore
 import android.support.v7.app.AlertDialog
 import gy.mf.info.control.NewMainActivity
+import gy.mf.info.control.transfer.ImageDatat
+import gy.mf.info.control.transfer.TotalModelMA
 import gy.mf.info.method.CommonAdapter
 import gy.mf.info.method.CommonViewHolder
 import gy.mf.info.model.Img
@@ -41,6 +43,16 @@ import java.util.*
 
 
 class MainActivity : BaseActivity(), ICheckImg {
+    override fun show_type_list2(list: List<TotalModelMA.TypeModel.Type>?) {
+        if (list != null) {
+            //type_list = ArrayList(list)//获得所有样式
+            var s = ""
+        }
+    }
+
+    override fun show_pictures2(list: MutableList<ImageDatat.DataBean.LinkBean>?) {
+         }
+
     override fun show_type_list(list: MutableList<TypeModel.Type>?) {
 
     }
@@ -220,13 +232,13 @@ class MainActivity : BaseActivity(), ICheckImg {
         if (!check_login_state()) {
             when (type) {
                 "6" -> {//跳转到论坛页面
-                    startActivity(Intent(this, NewMainActivity::class.java))
+                    startActivity(Intent(this, TribuneActivity::class.java))
                 }
                 "7" -> {//跳转到会员中心
                     startActivity(Intent(this, UserCenterActivity::class.java))
                 }
                 else -> {//跳转到图片选择页面
-                    startActivity(Intent(this, CheckImgActivity::class.java).putExtra("type", type))
+                    startActivity(Intent(this, NewMainActivity::class.java).putExtra("type", type))
                 }
             }
         } else {

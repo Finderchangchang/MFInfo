@@ -12,6 +12,8 @@ import gy.mf.info.control.ImgDetailsActivity
 import gy.mf.info.control.check_img.CheckImgListener
 import gy.mf.info.control.check_img.ICheckImg
 import gy.mf.info.control.check_img.OneImgDetailActivity
+import gy.mf.info.control.transfer.ImageDatat
+import gy.mf.info.control.transfer.TotalModelMA
 import gy.mf.info.method.CommonAdapter
 import gy.mf.info.method.CommonViewHolder
 import gy.mf.info.model.ImgsModel
@@ -26,6 +28,16 @@ import kotlinx.android.synthetic.main.activity_user_center.*
 import java.util.*
 
 class CheckedImgActivity : BaseActivity(), ICheckImg {
+    override fun show_type_list2(list: List<TotalModelMA.TypeModel.Type>?) {
+        if (list != null) {
+            //type_list = ArrayList(list)//获得所有样式
+            var s = ""
+        }
+    }
+
+    override fun show_pictures2(list: MutableList<ImageDatat.DataBean.LinkBean>?) {
+        }
+
     override fun show_type_list(list: MutableList<TypeModel.Type>?) {
         test_list = ArrayList()
 //        for (model in list!!) {

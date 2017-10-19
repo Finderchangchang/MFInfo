@@ -17,14 +17,21 @@
         android:id="@+id/iv_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+    <TextView
+        android:id="@+id/next_iv"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@mipmap/next"
+        android:layout_above="@+id/bi_tv"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"/>
     <LinearLayout
         android:id="@+id/check_img_above"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
         <TextView
             android:id="@+id/big_type_iv"
@@ -81,7 +88,8 @@
             android:gravity="center"
             android:padding="3dp"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/xiang_iv"
             android:layout_width="30dp"
@@ -108,10 +116,9 @@
     <LinearLayout
         android:layout_width="100dp"
         android:layout_height="50dp"
+        android:orientation="horizontal"
         android:layout_above="@+id/bottom_"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="100dp"
-        android:orientation="horizontal">
+        android:layout_alignParentRight="true">
 
         <ImageView
             android:id="@+id/kuai_iv"
@@ -134,11 +141,13 @@
         android:id="@+id/bi_tv"
         android:layout_width="25dp"
         android:layout_height="75dp"
-        android:layout_alignParentBottom="true"
         android:background="#8f000000"
         android:gravity="center"
         android:text="对比"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <LinearLayout
         android:id="@+id/bottom_"

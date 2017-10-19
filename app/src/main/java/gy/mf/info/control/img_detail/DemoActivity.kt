@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
 
 import gy.mf.info.R
-import gy.mf.info.control.check_img.HorizontalAdapter
+import gy.mf.info.control.HorizontalAdapter
 import java.util.*
 
 class DemoActivity : AppCompatActivity() {
@@ -18,7 +18,7 @@ class DemoActivity : AppCompatActivity() {
         for(s in titles){
             list.add(s)
         }
-        val firstAdapter = HorizontalAdapter(list,this)
+        val firstAdapter = HorizontalAdapter(list, this)
         val firstRecyclerView = findViewById(R.id.first_recycler_view) as MultiSnapRecyclerView
         val firstManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         firstRecyclerView.layoutManager = firstManager

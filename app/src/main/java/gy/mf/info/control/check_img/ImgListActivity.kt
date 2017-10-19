@@ -36,10 +36,22 @@ import android.content.Context.CONNECTIVITY_SERVICE
 import android.text.TextUtils
 import com.google.gson.Gson
 import com.lzy.okgo.callback.StringCallback
+import gy.mf.info.control.transfer.ImageDatat
+import gy.mf.info.control.transfer.TotalModelMA
 import gy.mf.info.util.Utils
 
 
 class ImgListActivity : BaseActivity(), ICheckImg {
+    override fun show_type_list2(list: List<TotalModelMA.TypeModel.Type>?) {
+        if (list != null) {
+            //type_list = ArrayList(list)//获得所有样式
+            var s = ""
+        }
+    }
+
+    override fun show_pictures2(list: MutableList<ImageDatat.DataBean.LinkBean>?) {
+        }
+
     override fun show_type_list(list: MutableList<TypeModel.Type>?) {
 
     }

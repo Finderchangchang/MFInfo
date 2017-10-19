@@ -1,25 +1,18 @@
 package gy.mf.info.control.check_img
 
-import android.Manifest
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.ContentUris
 import android.content.Intent
-import android.database.Cursor
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
-import android.os.Handler
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.bigkoo.pickerview.OptionsPickerView
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.lzy.okgo.OkGo
 import com.lzy.okgo.callback.StringCallback
-import com.tbruyelle.rxpermissions.RxPermissions
 import gy.mf.info.R
 import gy.mf.info.base.App
 import gy.mf.info.base.BaseActivity
@@ -27,38 +20,28 @@ import gy.mf.info.util.urls
 import kotlinx.android.synthetic.main.activity_check_img.*
 import okhttp3.Call
 import okhttp3.Response
-import rx.functions.Action1
-import wai.gr.cla.callback.JsonCallback
 import java.util.*
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.util.Log
-import android.view.MotionEvent
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import android.widget.*
-import cn.finalteam.galleryfinal.CoreConfig
-import cn.finalteam.galleryfinal.FunctionConfig
-import cn.finalteam.galleryfinal.GalleryFinal
-import cn.finalteam.galleryfinal.ThemeConfig
-import cn.finalteam.galleryfinal.model.PhotoInfo
-import com.kaopiz.kprogresshud.KProgressHUD
-import com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView
 import gy.mf.info.control.*
 import gy.mf.info.control.img_detail.CheckedImgActivity
 import gy.mf.info.control.transfer.*
 import gy.mf.info.control.transfer.ListPopupWindow
 import gy.mf.info.method.*
-import gy.mf.info.method.GlideImageLoader
 import gy.mf.info.model.*
-import me.iwf.photopicker.PhotoPicker
 
 
 /**
  * 图像比对收藏页面
  * */
 class CheckImgActivity : BaseActivity(), ICheckImg {
+
+
     var girlDetails: GirlDetails? = null
     var img_lists: ArrayList<PictureModel>? = ArrayList()//图片的url
     
@@ -167,7 +150,7 @@ class CheckImgActivity : BaseActivity(), ICheckImg {
     //获得当前分类
     override fun show_type_list2(list: List<TotalModelMA.TypeModel.Type>?) {
         if (list != null) {
-            type_list = ArrayList(list)//获得所有样式
+            //type_list = ArrayList(list)//获得所有样式
             var s = ""
         }
     }

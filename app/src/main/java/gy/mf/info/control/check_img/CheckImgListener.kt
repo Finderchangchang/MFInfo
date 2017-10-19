@@ -31,9 +31,8 @@ interface ICheckImg : IBear {
     //收藏，取消收藏结果
     fun add_imgs_result(boolean: Boolean)
 
-    fun show_type_list2(list: List<TotalModelMA.TypeModel.Type>?) {}
-    fun show_pictures2(list: MutableList<ImageDatat.DataBean.LinkBean>?) {
-    }
+    fun show_type_list2(list: List<TotalModelMA.TypeModel.Type>?)
+    fun show_pictures2(list: MutableList<ImageDatat.DataBean.LinkBean>?)
 
 }
 

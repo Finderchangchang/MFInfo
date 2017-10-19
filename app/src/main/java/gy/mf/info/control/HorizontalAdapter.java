@@ -1,14 +1,12 @@
-package gy.mf.info.control.check_img;
+package gy.mf.info.control;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -31,9 +29,13 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
         this.mContext = context;
     }
 
+    ViewHolder holder;
+    int now_position;
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_gallery_item, viewGroup, false);
+        //holder=new ViewHolder(view);
         return new ViewHolder(view);
     }
 
@@ -44,18 +46,29 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.Vi
                 .load(new urls().getUpload_picture() + title)
                 .error(R.mipmap.defult_user)
                 .into(holder.title);
-        if (click != null) {
-            holder.title.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        now_position = position;
+        holder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (click != null) {
                     click.click(position);
+
                 }
-            });
-        }
+            }
+        });
     }
 
-    public void setClick(Click click) {
+    public void setClick(final Click click) {
         this.click = click;
+//        if (click != null) {
+//            holder.title.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    click.click(now_position);
+//                }
+//            });
+//        }
+        String a = "";
     }
 
     Click click;

@@ -48,13 +48,15 @@ public class CheckActivity extends BaseActivity implements ICheckImg {
 
     }
 
-    @Override
-    public void show_type_list2(List<? extends TotalModelMA.TypeModel.Type> list) {
-
-    }
 
     @Override
     public void show_pictures2(List<ImageDatat.DataBean.LinkBean> list) {
+
+    }
+
+
+    @Override
+    public void show_type_list2(List<? extends TotalModelMA.TypeModel.Type> list) {
 
     }
 }
