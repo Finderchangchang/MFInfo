@@ -4,10 +4,12 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 
 import gy.mf.info.R
 import gy.mf.info.base.BaseActivity
@@ -62,12 +64,39 @@ class NewMainActivity : BaseActivity(), ICheckImg {
     }
 
     override fun initEvent() {
+
+        if (type.toInt() < 4) {
+            ran_iv.visibility = View.VISIBLE
+        } else {
+            jia_iv.visibility = View.INVISIBLE
+            bi_iv.visibility = View.INVISIBLE
+            shi_iv.visibility = View.INVISIBLE
+            bi_tv.visibility = View.INVISIBLE
+            bottom_.visibility = View.INVISIBLE
+            ran_iv.visibility = View.GONE
+            xiang_iv.visibility = View.GONE
+            kuai_iv.visibility = View.INVISIBLE
+        }
+        when (now_type) {
+            "1" -> big_type_iv.background = resources.getDrawable(R.mipmap.nv)
+            "2" -> big_type_iv.background = resources.getDrawable(R.mipmap.nan)
+            "3" -> big_type_iv.background = resources.getDrawable(R.mipmap.tong)
+            "4" -> big_type_iv.background = resources.getDrawable(R.mipmap.zao)
+            "5" -> big_type_iv.background = resources.getDrawable(R.mipmap.shang)
+        }
         val firstManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         msr.layoutManager = firstManager
         CheckImgListener(this).getImgs("1", now_index, "1")
         firstAdapter = MainPagerAdapter(this, img_lists)
         iv_viewpager.adapter = firstAdapter
-
+        img_show()
+        setHH(fan_iv, 60)
+        setHH(bi_iv, 60)
+        setHH(jia_iv, 60)
+        setHH(shi_iv, 60)
+        setHH(big_type_iv, 100)
+        setHH(ran_iv, 90)
+        setHH(xiang_iv, 60)
         iv_viewpager.offscreenPageLimit = 1
         iv_viewpager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -109,7 +138,19 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             CheckImgListener(this@NewMainActivity).getImgs(now_type, now_index, level)
         }
         kuai_iv.setOnClickListener { img_show() }
-
+        fan_iv.setOnClickListener {
+            var builder = AlertDialog.Builder(this)
+            builder.setTitle("提示")
+            builder.setMessage("确定要退出当前页面吗？")
+            builder.setNegativeButton("取消", null)
+            builder.setPositiveButton("确定") { a, b ->
+                finish()
+            }
+            builder.setOnDismissListener {
+                hideSystemNavigationBar()
+            }
+            builder.show()
+        }
     }
 
     var type = "1"//一级分类
@@ -129,5 +170,14 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             iv_viewpager.visibility = View.GONE
             main_gv.smoothScrollToPosition(now_position)
         }
+    }
+    fun setHH(iv: TextView, height: Int) {
+        var heights = this.windowManager.defaultDisplay.height
+        var params = iv.layoutParams;
+        //获取当前控件的布局对象
+        var s = (heights.toDouble() / 1280 * height).toInt()
+        params.height = s
+        params.width = s
+        iv.layoutParams = params;//将设置好的布局参数应用到控件中
     }
 }
