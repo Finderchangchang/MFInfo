@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_srl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@mipmap/gerenzhongxin_beijing">
+
+                <ImageView
+                    android:id="@+id/user_iv_header"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_above="@+id/user_ll"
+                    android:layout_centerHorizontal="true"
+                    android:src="@mipmap/defult_user" />
+
+                <LinearLayout
+                    android:id="@+id/user_ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/user_tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="未登录"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="1dp"
+                android:background="@color/white" />
+
+            <gy.mf.info.method.MenuView
+                android:id="@+id/user_mv_sc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:menu_left_iv="@mipmap/me_dingdanicon"
+                app:menu_left_tv="我的收藏"
+                app:menu_left_tv_color="@color/peisong_lab" />
+
+
+            <gy.mf.info.method.MenuView
+                android:id="@+id/user_mv_dd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:menu_left_iv="@mipmap/me_dingdanicon"
+                app:menu_left_tv="密码修改"
+                app:menu_left_tv_color="@color/peisong_lab" />
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="1dp"
+                android:background="@color/white" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/exit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:text="退出登录"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/back_iv"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_back_black_24dp" />
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

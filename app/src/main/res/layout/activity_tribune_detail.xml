@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/toolbar_ll"
+        android:layout_width="match_parent"
+        android:layout_height="47dp">
+
+
+        <TextView
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="详情"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/back_iv"
+            android:layout_width="47dp"
+            android:layout_height="match_parent"
+            android:padding="7dp"
+            android:src="@drawable/main_back" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/wen_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="老司机福利局萨拉飞机酸辣粉距离圣诞节放松放松十分了解撒六块腹肌as垃圾分类束带结发到拉萨解放东路设计福利时间粉丝福利"
+        android:textColor="#DEA17F" />
+
+
+    <LinearLayout
+        android:id="@+id/wen_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/wen1_iv"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="10dp"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/wen2_iv"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/wen3_iv"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_detail_userid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="123232"
+            android:textColor="@color/__picker_black_40" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:gravity="right"
+            android:text="2017年05月22日"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/black" />
+
+    <ListView
+        android:id="@+id/answer_lv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/msg_et"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:paddingLeft="10dp" />
+
+        <Button
+            android:id="@+id/send_btn"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:text="发送"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+</LinearLayout>

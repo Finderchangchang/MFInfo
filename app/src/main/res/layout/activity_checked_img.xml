@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="gy.mf.info.control.img_detail.CheckedImgActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="收藏列表"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/main_back"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:padding="5dp"
+        android:src="@drawable/main_back" />
+
+    <TextView
+        android:id="@+id/manage_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="管理"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <GridView
+        android:id="@+id/gv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title"
+        android:numColumns="3"></GridView>
+</RelativeLayout>
