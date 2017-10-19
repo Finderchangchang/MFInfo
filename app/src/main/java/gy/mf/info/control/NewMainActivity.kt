@@ -169,6 +169,10 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         iv_viewpager.offscreenPageLimit = 1
         iv_viewpager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                Log.i("now_position", position.toString() + ":" + now_position)
+                if(position<now_position){
+                    iv_viewpager.currentItem=now_position
+                }
                 now_position = position
                 if (isLastPage && isDragPage && positionOffsetPixels == 0) {   //当前页是最后一页，并且是拖动状态，并且像素偏移量为0
                     if (canJumpPage) {
