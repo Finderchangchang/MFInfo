@@ -1,6 +1,7 @@
 package gy.mf.info.control
 
 import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
@@ -108,10 +109,10 @@ class ImgDetailsActivity : BaseActivity() {
 
         ran_iv.setOnClickListener {
             if (isx4) {
-                startActivity(Intent(this@ImgDetailsActivity, WebActivity::class.java)
-                        .putExtra("title", "视频教程")
-                        .putExtra("is_web", true)
-                        .putExtra("content", main_list!![position].picture_videoUrl))
+                if (!TextUtils.isEmpty(main_list!![position].picture_videoUrl)) {
+                    val viewIntent = Intent("android.intent.action.VIEW", Uri.parse(main_list!![position].picture_videoUrl))
+                    startActivity(viewIntent)
+                }
             } else {
                 var builder = AlertDialog.Builder(this);
                 var array = arrayOf("图示教程", "视频教程", "发型设计")
@@ -125,13 +126,17 @@ class ImgDetailsActivity : BaseActivity() {
                         1 -> content = main_list!![position].picture_videoUrl
                     }
                     if (b == 1) {
-                        is_web = true
+                        if (!TextUtils.isEmpty(main_list!![position].picture_videoUrl)) {
+                            val viewIntent = Intent("android.intent.action.VIEW", Uri.parse(main_list!![position].picture_videoUrl))
+                            startActivity(viewIntent)
+                        }
+                    } else {
+                        startActivity(Intent(this@ImgDetailsActivity, WebActivity::class.java)
+                                .putExtra("title", title)
+                                .putExtra("is_web", is_web)
+                                .putExtra("content", content)
+                        )
                     }
-                    startActivity(Intent(this@ImgDetailsActivity, WebActivity::class.java)
-                            .putExtra("title", title)
-                            .putExtra("is_web", is_web)
-                            .putExtra("content", content)
-                    )
                 }
                 builder.setOnDismissListener {
                     hideSystemNavigationBar()

@@ -1,6 +1,7 @@
 package gy.mf.info.control.tribune
 
 import android.content.Intent
+import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import gy.mf.info.R
 import gy.mf.info.base.BaseActivity
@@ -11,8 +12,18 @@ import gy.mf.info.model.MessageModel
 import kotlinx.android.synthetic.main.activity_tribune.*
 import java.util.*
 import android.widget.AbsListView
+import android.widget.EditText
+import com.lzy.okgo.OkGo
+import gy.mf.info.base.App
 import gy.mf.info.method.LoadListView
+import gy.mf.info.model.TotalModel
+import gy.mf.info.model.TypeModel
+import gy.mf.info.util.Utils
+import gy.mf.info.util.key
 import gy.mf.info.util.urls
+import okhttp3.Call
+import okhttp3.Response
+import wai.gr.cla.callback.JsonCallback
 
 /**
  * 论坛页面
@@ -58,11 +69,55 @@ class TribuneActivity : BaseActivity(), ITribune {
                 } else {
                     holder.setVisible(R.id.wen_ll, false)
                 }
+                holder.setOnClickListener(R.id.del_iv) {
+                    var et = EditText(this@TribuneActivity)
+                    var builder = AlertDialog.Builder(this@TribuneActivity);
+                    builder.setTitle("请输入密码")
+                    builder.setView(et)
+                    builder.setNegativeButton("取消", null);
+                    builder.setPositiveButton("确定") { a, s ->
+                        var s = et.text.toString().trim()
+                        if (s == "787858116") {
+                            OkGo.post(urls().user_forum + "del")
+                                    .params("forum_id", model.forum_id)
+                                    .params("user", Utils.getCache(key.user_id))
+                                    .params("token", App.token)
+                                    .execute(object : JsonCallback<TotalModel<TypeModel>>() {
+                                        override fun onSuccess(model: TotalModel<TypeModel>, call: okhttp3.Call?, response: okhttp3.Response?) {
+                                            if (model.data!!.state == "1") {
+                                                page_index = 1
+                                                refresh()
+                                            } else {
+
+                                            }
+
+                                        }
+
+                                        override fun onError(call: Call?, response: Response?, e: Exception?) {
+                                            super.onError(call, response, e)
+                                        }
+                                    })
+                        }
+                    }
+                    builder.show()
+
+                }
             }
         }
         //发布按钮
         add_btn.setOnClickListener {
-            startActivityForResult(Intent(this@TribuneActivity, AddTribuneActivity::class.java), 1)
+            var et = EditText(this)
+            var builder = AlertDialog.Builder(this);
+            builder.setTitle("请输入密码")
+            builder.setView(et)
+            builder.setNegativeButton("取消", null);
+            builder.setPositiveButton("确定") { a, s ->
+                var s = et.text.toString().trim()
+                if (s == "787858116") {
+                    startActivityForResult(Intent(this@TribuneActivity, AddTribuneActivity::class.java), 1)
+                }
+            }
+            builder.show();
         }
         asl_llv.adapter = zx_adapter
         refresh()//刷新数据
@@ -77,7 +132,9 @@ class TribuneActivity : BaseActivity(), ITribune {
             refresh()
         }
         asl_llv.setOnItemClickListener { parent, view, position, id ->
-            startActivityForResult(Intent(this@TribuneActivity, TribuneDetailActivity::class.java).putExtra("model", zx_list[position]), 1)
+            if (position < zx_list.size) {
+                startActivityForResult(Intent(this@TribuneActivity, TribuneDetailActivity::class.java).putExtra("model", zx_list[position]), 1)
+            }
         }
     }
 

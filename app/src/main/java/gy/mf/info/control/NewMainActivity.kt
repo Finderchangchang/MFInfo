@@ -2,6 +2,8 @@ package gy.mf.info.control
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Handler
+import android.os.Message
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -13,6 +15,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 
 import gy.mf.info.R
+import gy.mf.info.base.App
 import gy.mf.info.base.BaseActivity
 import gy.mf.info.control.check_img.*
 import gy.mf.info.control.img_detail.CheckedImgActivity
@@ -59,8 +62,14 @@ class NewMainActivity : BaseActivity(), ICheckImg {
     override fun show_pictures(list: MutableList<PictureModel>?) {
         if (now_index == 1) {
             img_lists = ArrayList<PictureModel>()
-            Log.i("position","------------------")
-            iv_viewpager.setCurrentItem(now_position, false)
+            Log.i("position", "------------------")
+            if (is_on_result) {
+                iv_viewpager.setCurrentItem(0, false)
+                now_position = 0
+                is_on_result = false
+            } else {
+                iv_viewpager.setCurrentItem(now_position, false)
+            }
             main_gv.smoothScrollToPosition(0)
         }
         img_lists.addAll(list as MutableList<PictureModel>)
@@ -95,6 +104,54 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         setContentView(R.layout.activity_new_main)
         type = intent.getStringExtra("type")//获得当前
         now_type = type
+        start_view()
+    }
+
+    var pop = false
+    var pop_timer: Timer = Timer()
+    fun start_view() {
+        pop_timer = Timer()
+        var handlers: Handler = object : Handler() {
+            override fun handleMessage(msg: Message) {
+                super.handleMessage(msg)
+                when (msg.what) {
+                    1 -> {
+                        now_index++
+                        CheckImgListener(this@NewMainActivity).getImgs(now_type, now_index, level)
+
+                    }
+                    2 -> {
+                        now_position++
+                        iv_viewpager.currentItem = now_position
+                    }
+                }
+            }
+        }
+        pop_task = object : TimerTask() {
+            override fun run() {
+                if (pop) {
+                    val message = Message()
+                    if (img_lists.size - 1 == now_position) {
+                        message.what = 1
+                    } else {
+                        message.what = 2
+                    }
+                    handlers.sendMessage(message)
+                }
+            }
+        }
+        pop_timer.schedule(pop_task, 1000 * 3, 1000 * 3)
+
+    }
+
+    override fun onPause() {
+        pop=false
+        super.onPause()
+    }
+
+    override fun onResume() {
+        pop=true
+        super.onResume()
     }
 
     override fun initEvent() {
@@ -161,20 +218,18 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         setHH(ran_iv, 90)
         setHH(xiang_iv, 60)
         next_iv.setOnClickListener {
-            now_position++
-            if (now_position == img_lists.size) {
-                now_index++
-                CheckImgListener(this@NewMainActivity).getImgs(now_type, now_index, level)
-            } else {
-                iv_viewpager.setCurrentItem(now_position, false)
-            }
+            pop = !pop
         }
         iv_viewpager.offscreenPageLimit = 1
         iv_viewpager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 Log.i("now_position", position.toString() + ":" + now_position)
-                if (noraml && position < now_position) {
-                    iv_viewpager.currentItem = now_position
+                if (!is_on_result) {
+                    if (noraml && position < now_position) {
+                        iv_viewpager.currentItem = now_position
+                    }
+                } else {
+                    is_on_result = false
                 }
                 now_position = position
                 if (isLastPage && isDragPage && positionOffsetPixels == 0) {   //当前页是最后一页，并且是拖动状态，并且像素偏移量为0
@@ -223,13 +278,17 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                         2 -> content = imgs.picture_fxsj
                     }
                     if (b == 1) {
-                        is_web = true
+                        if (!TextUtils.isEmpty(imgs.picture_videoUrl)) {
+                            val viewIntent = Intent("android.intent.action.VIEW", Uri.parse(imgs.picture_videoUrl))
+                            startActivity(viewIntent)
+                        }
+                    } else {
+                        startActivity(Intent(this@NewMainActivity, WebActivity::class.java)
+                                .putExtra("title", title)
+                                .putExtra("is_web", is_web)
+                                .putExtra("content", content))
+
                     }
-                    startActivity(Intent(this@NewMainActivity, WebActivity::class.java)
-                            .putExtra("title", title)
-                            .putExtra("is_web", is_web)
-                            .putExtra("content", content)
-                    )
                 }
                 builder.setOnDismissListener {
                     hideSystemNavigationBar()
@@ -286,7 +345,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         main_gv.setOnItemClickListener { parent, view, position, id ->
             if (type.toInt() < 4) {
                 img_show()
-                now_position=position
+                now_position = position
                 iv_viewpager.setCurrentItem(position, false)
             } else {
                 startActivity(Intent(this, ImgDetailsActivity::class.java)
@@ -484,6 +543,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         iv_viewpager.adapter = firstAdapter
     }
 
+    var is_on_result = false
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == 11) {
@@ -508,6 +568,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                     now_index = 1
                     CheckImgListener(this@NewMainActivity).getImgs(now_type, now_index, level)
                 }
+                is_on_result = true
             }
         }
     }

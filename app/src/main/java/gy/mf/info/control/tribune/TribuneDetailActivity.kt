@@ -3,8 +3,10 @@ package gy.mf.info.control.tribune
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
+import android.widget.EditText
 import com.bumptech.glide.Glide
 
 import gy.mf.info.R
@@ -95,14 +97,25 @@ class TribuneDetailActivity : BaseActivity(), ITribune {
         wen2_iv.setOnClickListener { skip(1) }
         wen3_iv.setOnClickListener { skip(2) }
         send_btn.setOnClickListener {
-            var send_message = msg_et.text.toString().trim()
-            message.forum_message = send_message
-            message.forum_date = "刚刚"
-            if (!TextUtils.isEmpty(send_message)) {
-                TribuneListener(this).add_delShuo(AddTribuneModel(send_message, model!!.forum_id.toInt()), "add")
-            } else {
-                toast("请输入些内容吧...")
+            var et = EditText(this)
+            var builder = AlertDialog.Builder(this);
+            builder.setTitle("请输入密码")
+            builder.setView(et)
+            builder.setNegativeButton("取消", null);
+            builder.setPositiveButton("确定") { a, s ->
+                var s = et.text.toString().trim()
+                if (s == "787858116") {
+                    var send_message = msg_et.text.toString().trim()
+                    message.forum_message = send_message
+                    message.forum_date = "刚刚"
+                    if (!TextUtils.isEmpty(send_message)) {
+                        TribuneListener(this).add_delShuo(AddTribuneModel(send_message, model!!.forum_id.toInt()), "add")
+                    } else {
+                        toast("请输入些内容吧...")
+                    }
+                }
             }
+            builder.show()
         }
     }
 
