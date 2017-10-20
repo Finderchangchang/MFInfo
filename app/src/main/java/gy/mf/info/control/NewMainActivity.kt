@@ -59,6 +59,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
     override fun show_pictures(list: MutableList<PictureModel>?) {
         if (now_index == 1) {
             img_lists = ArrayList<PictureModel>()
+            Log.i("position","------------------")
             iv_viewpager.setCurrentItem(now_position, false)
             main_gv.smoothScrollToPosition(0)
         }
@@ -69,8 +70,10 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         main_gv.getIndex(now_index, page_size, now_index * 11)
         adapter!!.refresh(img_lists)
         firstAdapter!!.refresh(img_lists)
-        iv_viewpager.adapter = firstAdapter
-        iv_viewpager.setCurrentItem(now_position, false)
+        //viewpager.adapter = firstAdapter
+        iv_viewpager.currentItem = now_position
+
+        // iv_viewpager.setCurrentItem(now_position, false)
         canJumpPage = true;
     }
 
@@ -170,8 +173,8 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         iv_viewpager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 Log.i("now_position", position.toString() + ":" + now_position)
-                if(position<now_position){
-                    iv_viewpager.currentItem=now_position
+                if (noraml && position < now_position) {
+                    iv_viewpager.currentItem = now_position
                 }
                 now_position = position
                 if (isLastPage && isDragPage && positionOffsetPixels == 0) {   //当前页是最后一页，并且是拖动状态，并且像素偏移量为0
@@ -283,6 +286,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         main_gv.setOnItemClickListener { parent, view, position, id ->
             if (type.toInt() < 4) {
                 img_show()
+                now_position=position
                 iv_viewpager.setCurrentItem(position, false)
             } else {
                 startActivity(Intent(this, ImgDetailsActivity::class.java)
