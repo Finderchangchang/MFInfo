@@ -52,7 +52,7 @@ class TribuneActivity : BaseActivity(), ITribune {
             override fun convert(holder: CommonViewHolder, model: MessageModel, position: Int) {
                 holder.setText(R.id.wen_tv, model.forum_message)
                 holder.setText(R.id.time_tv, model.forum_date)
-                holder.setText(R.id.tv_userid, model.forum_user)
+                holder.setVisible(R.id.tv_userid, false)
                 val urlsa = model.forum_picture//获得所有图片的url
                 if (urlsa.contains(":")) {
                     val pics = urlsa.split(":")

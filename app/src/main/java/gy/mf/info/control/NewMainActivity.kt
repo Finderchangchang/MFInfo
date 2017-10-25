@@ -77,9 +77,14 @@ class NewMainActivity : BaseActivity(), ICheckImg {
 
         //firstAdapter = MainPagerAdapter(this, img_lists)
         main_gv.getIndex(now_index, page_size, now_index * 11)
-        adapter!!.refresh(img_lists)
-        firstAdapter!!.refresh(img_lists)
-        //viewpager.adapter = firstAdapter
+        //adapter!!.refresh(ArrayList<PictureModel>())//ArrayList<PictureModel>()
+        adapter!!.refresh(img_lists)//ArrayList<PictureModel>()
+        if (now_index == 1) {
+            firstAdapter = MainPagerAdapter(this, img_lists)
+            iv_viewpager.adapter = firstAdapter
+        } else {
+            firstAdapter!!.refresh(img_lists)
+        }//viewpager.adapter = firstAdapter
         iv_viewpager.currentItem = now_position
 
         // iv_viewpager.setCurrentItem(now_position, false)
@@ -109,6 +114,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
 
     var pop = false
     var pop_timer: Timer = Timer()
+    var poptask: TimerTask? = null
     fun start_view() {
         pop_timer = Timer()
         var handlers: Handler = object : Handler() {
@@ -127,7 +133,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                 }
             }
         }
-        pop_task = object : TimerTask() {
+        poptask = object : TimerTask() {
             override fun run() {
                 if (pop) {
                     val message = Message()
@@ -140,17 +146,17 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                 }
             }
         }
-        pop_timer.schedule(pop_task, 1000 * 3, 1000 * 3)
+        pop_timer.schedule(poptask, 1000 * 4, 1000 * 4)
 
     }
 
     override fun onPause() {
-        pop=false
+        pop = false
         super.onPause()
     }
 
     override fun onResume() {
-        pop=true
+        pop = true
         super.onResume()
     }
 
@@ -219,6 +225,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         setHH(xiang_iv, 60)
         next_iv.setOnClickListener {
             pop = !pop
+            App.is_show = pop
         }
         iv_viewpager.offscreenPageLimit = 1
         iv_viewpager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -415,7 +422,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
 
     var type = "1"//一级分类
     var noraml = false//true:单张图false:多图
-
+    var change_click = false//图片切换点击
     fun img_show() {
         if (type.toInt() < 4) {
             noraml = !noraml
@@ -423,9 +430,11 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             noraml = false
         }
         if (noraml) {//单图模式
+            pop = true
             main_gv.visibility = View.GONE
             iv_viewpager.visibility = View.VISIBLE
         } else {//多图模式
+            pop = false
             main_gv.visibility = View.VISIBLE
             iv_viewpager.visibility = View.GONE
             main_gv.smoothScrollToPosition(now_position)
