@@ -17,11 +17,11 @@
         android:id="@+id/iv_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <TextView
+    <ImageView
         android:id="@+id/next_iv"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="@mipmap/next"
+        android:src="@mipmap/pressed"
         android:layout_above="@+id/bi_tv"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"/>

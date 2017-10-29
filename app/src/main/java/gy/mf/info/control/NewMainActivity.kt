@@ -15,7 +15,6 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 
 import gy.mf.info.R
-import gy.mf.info.base.App
 import gy.mf.info.base.BaseActivity
 import gy.mf.info.control.check_img.*
 import gy.mf.info.control.img_detail.CheckedImgActivity
@@ -62,14 +61,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
     override fun show_pictures(list: MutableList<PictureModel>?) {
         if (now_index == 1) {
             img_lists = ArrayList<PictureModel>()
-            Log.i("position", "------------------")
-            if (is_on_result) {
-                iv_viewpager.setCurrentItem(0, false)
-                now_position = 0
-                is_on_result = false
-            } else {
-                iv_viewpager.setCurrentItem(now_position, false)
-            }
+            iv_viewpager.setCurrentItem(now_position, false)
             main_gv.smoothScrollToPosition(0)
         }
         img_lists.addAll(list as MutableList<PictureModel>)
@@ -77,17 +69,10 @@ class NewMainActivity : BaseActivity(), ICheckImg {
 
         //firstAdapter = MainPagerAdapter(this, img_lists)
         main_gv.getIndex(now_index, page_size, now_index * 11)
-        //adapter!!.refresh(ArrayList<PictureModel>())//ArrayList<PictureModel>()
-        adapter!!.refresh(img_lists)//ArrayList<PictureModel>()
-        if (now_index == 1) {
-            firstAdapter = MainPagerAdapter(this, img_lists)
-            iv_viewpager.adapter = firstAdapter
-        } else {
-            firstAdapter!!.refresh(img_lists)
-        }//viewpager.adapter = firstAdapter
-        iv_viewpager.currentItem = now_position
-
-        // iv_viewpager.setCurrentItem(now_position, false)
+        adapter!!.refresh(img_lists)
+        firstAdapter!!.refresh(img_lists)
+        iv_viewpager.adapter = firstAdapter
+        iv_viewpager.setCurrentItem(now_position, false)
         canJumpPage = true;
     }
 
@@ -160,6 +145,8 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         super.onResume()
     }
 
+    var pressed = true
+
     override fun initEvent() {
 
         if (type.toInt() < 4) {
@@ -216,7 +203,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         }
         setHH(fan_iv, 60)
         setHH(bi_iv, 60)
-        setHH(next_iv, 80)
+        //setHH(next_iv, 80)
 
         setHH(jia_iv, 60)
         setHH(shi_iv, 60)
@@ -224,8 +211,16 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         setHH(ran_iv, 90)
         setHH(xiang_iv, 60)
         next_iv.setOnClickListener {
+            pressed = !pressed
+
+            if (pressed) {
+                next_iv.setImageResource(R.mipmap.pressed)
+            }else{
+                next_iv.setImageResource(R.mipmap.next)
+            }
+
             pop = !pop
-            App.is_show = pop
+            //App.is_show = pop
         }
         iv_viewpager.offscreenPageLimit = 1
         iv_viewpager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
