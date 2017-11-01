@@ -96,6 +96,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         type = intent.getStringExtra("type")//获得当前
         now_type = type
         start_view()
+        can_start_pop=true
     }
 
     var pop = false
@@ -133,7 +134,6 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             }
         }
         pop_timer.schedule(poptask, 1000 * 4, 1000 * 4)
-        App.pop_is_show = false
     }
     var old_pop_state=true
     override fun onPause() {
@@ -147,6 +147,11 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             pop = true
         }
         super.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //App.pop_is_show = false
     }
     companion object {
         var model = TypeModel()
@@ -220,11 +225,11 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             pressed = !pressed
 
             if (pressed) {
-                App.pop_is_show = false
+                App.is_show=true
                 next_iv.setImageResource(R.mipmap.pressed)
             }else{
                 next_iv.setImageResource(R.mipmap.next)
-                App.pop_is_show = true
+                App.is_show=false
             }
 
             pop = !pop
@@ -407,6 +412,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                 holder.setGImage(R.id.id_index_gallery_item_image, urls().upload_picture + model)
             }
         }
+        App.is_show=true
     }
 
     override fun onBackPressed() {

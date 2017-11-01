@@ -20,6 +20,7 @@ import android.R.attr.orientation
 import android.app.ActivityManager
 import android.content.Context
 import android.content.res.Configuration
+import gy.mf.info.control.NewMainActivity
 import gy.mf.info.control.check_img.CheckImgActivity
 import gy.mf.info.model.PictureModel
 
@@ -33,11 +34,6 @@ abstract class BaseActivity : AppCompatActivity(), IBear {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //强制竖屏
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        //showBar();
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         initViews()
         initEvent()
@@ -68,12 +64,12 @@ abstract class BaseActivity : AppCompatActivity(), IBear {
         return false; }
 
     var wasBackground = false    //声明一个布尔变量,记录当前的活动背景
-
+    var can_start_pop=false//true:能启动
     override fun onResume() {
         hideSystemNavigationBar()
         //vFloat!!.detach()
-        //start()
-        App.is_show = false
+        start()
+        App.is_show = can_start_pop
         App.pop_is_show = true//pop停止计时
         if (wasBackground) {
             var s = ""
@@ -147,12 +143,12 @@ abstract class BaseActivity : AppCompatActivity(), IBear {
     var handler: Handler = object : Handler() {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            if (App.num >5 && !App.is_show) {
+            if (App.num >180 && !App.is_show) {
                 App.is_show = true
                 App.timer.cancel()
                 if (ImgListActivity.activity == null) {
                     if (CheckImgActivity != null) {
-                        type_model = CheckImgActivity.model
+                        type_model = NewMainActivity.model
                     } else {
                         type_model = TypeModel()
                     }
