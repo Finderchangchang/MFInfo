@@ -29,4 +29,5 @@ class PictureModel : Serializable {
     var picture_tsjc = ""//图示教程
     var picture_videoUrl = ""//视频教程
     var picture_fxsj = ""//发型设计
+    var collection=0//0未收藏
 }

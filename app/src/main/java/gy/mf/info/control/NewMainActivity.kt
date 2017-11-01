@@ -15,6 +15,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 
 import gy.mf.info.R
+import gy.mf.info.base.App
 import gy.mf.info.base.BaseActivity
 import gy.mf.info.control.check_img.*
 import gy.mf.info.control.img_detail.CheckedImgActivity
@@ -132,19 +133,24 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             }
         }
         pop_timer.schedule(poptask, 1000 * 4, 1000 * 4)
-
+        App.pop_is_show = false
     }
-
+    var old_pop_state=true
     override fun onPause() {
+        old_pop_state=pop
         pop = false
         super.onPause()
     }
 
     override fun onResume() {
-        pop = true
+        if(old_pop_state) {
+            pop = true
+        }
         super.onResume()
     }
-
+    companion object {
+        var model = TypeModel()
+    }
     var pressed = true
 
     override fun initEvent() {
@@ -214,9 +220,11 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             pressed = !pressed
 
             if (pressed) {
+                App.pop_is_show = false
                 next_iv.setImageResource(R.mipmap.pressed)
             }else{
                 next_iv.setImageResource(R.mipmap.next)
+                App.pop_is_show = true
             }
 
             pop = !pop
@@ -251,6 +259,11 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                             bi_iv.background = getDrawable(R.mipmap.bi)
                         }
                     }
+                }
+                if(img_lists[now_position].collection==0){
+                    jia_iv.background = getDrawable(R.mipmap.cang_s)
+                }else{
+                    jia_iv.background = getDrawable(R.mipmap.cang)
                 }
             }
 
@@ -325,7 +338,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                 var sc_result = true
                 if (sc_result) {//收藏
                     var model = img_lists!![now_position]
-                    model.is_collection = 1
+                    model.collection = 1
                     jia_iv.background = getDrawable(R.mipmap.cang)
                     CheckImgListener(this).addImgs(img_lists!![now_position].picture_id, "add")
                 } else {//取消收藏
@@ -577,7 +590,6 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         }
     }
 
-    var model = TypeModel()
     fun showListAlertDialog() {
         val arrayList = ArrayList<String>()
         arrayList.add("播放幻灯片")

@@ -257,10 +257,10 @@ class ImgListActivity : BaseActivity(), ICheckImg {
     }
 
     override fun onDestroy() {
-        App.is_show = false
-        App.num = 0
+//        App.is_show = false
+//        App.num = 0
         activity = null
-        start()
+//        start()
         super.onDestroy()
     }
 }

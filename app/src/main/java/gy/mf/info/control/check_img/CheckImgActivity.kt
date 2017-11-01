@@ -515,6 +515,7 @@ class CheckImgActivity : BaseActivity(), ICheckImg {
                         CheckImgListener(this@CheckImgActivity).getImgs(now_type, now_index, level)
                     }
                 }
+                //if()
                 if (noraml && img_lists!!.size > now_position) {
                     for (i in position_list) {
                         if (position == i) {
@@ -543,7 +544,7 @@ class CheckImgActivity : BaseActivity(), ICheckImg {
                 var sc_result = true
                 if (sc_result) {//收藏
                     var model = img_lists!![now_position]
-                    model.is_collection = 1
+                    model.collection = 1
                     jia_iv.background = getDrawable(R.mipmap.cang)
                     CheckImgListener(this).addImgs(img_lists!![now_position].picture_id, "add")
                 } else {//取消收藏

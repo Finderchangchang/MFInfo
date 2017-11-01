@@ -97,6 +97,7 @@ class CheckImgListener(img: ICheckImg) {
                 .params("level", level)
                 .params("amount", "20")
                 .params("page", index)
+                .params("user_id", Utils.getCache(key.user_id))
                 //.params("page_size", "5")
                 .params("token", App.token)
                 .execute(object : JsonCallback<TotalModel<MutableList<PictureModel>>>() {

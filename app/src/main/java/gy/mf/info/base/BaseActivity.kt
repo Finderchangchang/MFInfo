@@ -69,14 +69,6 @@ abstract class BaseActivity : AppCompatActivity(), IBear {
 
     var wasBackground = false    //声明一个布尔变量,记录当前的活动背景
 
-    fun checkPermission() {
-        if (SettingsCompat.canDrawOverlays(this)) {
-            App.vFloat!!.attach()
-        } else {
-            App.vFloat!!.detach()
-        }
-    }
-
     override fun onResume() {
         hideSystemNavigationBar()
         //vFloat!!.detach()
@@ -100,14 +92,6 @@ abstract class BaseActivity : AppCompatActivity(), IBear {
             wasBackground = true;
     }
 
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 
     var type_model: TypeModel = TypeModel()
     // 每当用户接触了屏幕，都会执行此方法
@@ -160,26 +144,10 @@ abstract class BaseActivity : AppCompatActivity(), IBear {
         }
         App.timer.schedule(task, 1000 * 1, 1000 * 1)
     }
-
-    var pop_handler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-            if (App.pop_num > 120 && !App.pop_is_show) {
-                App.vFloat!!.setShowOrClose()
-            } else {
-                App.pop_num++
-            }
-        }
-    }
-
-    fun isScreenOriatationPortrait(): Boolean {
-        return getResources().getConfiguration().orientation === Configuration.ORIENTATION_PORTRAIT
-    }
-
     var handler: Handler = object : Handler() {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            if (App.num >180 && !App.is_show) {
+            if (App.num >5 && !App.is_show) {
                 App.is_show = true
                 App.timer.cancel()
                 if (ImgListActivity.activity == null) {
@@ -197,6 +165,21 @@ abstract class BaseActivity : AppCompatActivity(), IBear {
             }
         }
     }
+    var pop_handler: Handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            if (App.pop_num > 120 && !App.pop_is_show) {
+                App.vFloat!!.setShowOrClose()
+            } else {
+                App.pop_num++
+            }
+        }
+    }
+
+    fun isScreenOriatationPortrait(): Boolean {
+        return getResources().getConfiguration().orientation === Configuration.ORIENTATION_PORTRAIT
+    }
+
 
     fun hideSystemNavigationBar() {
         if (Build.VERSION.SDK_INT in 12..18) {
