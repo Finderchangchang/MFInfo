@@ -444,10 +444,13 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             noraml = false
         }
         if (noraml) {//单图模式
-            pop = true
+            if(old_pop_state){
+                pop = true
+            }
             main_gv.visibility = View.GONE
             iv_viewpager.visibility = View.VISIBLE
         } else {//多图模式
+            old_pop_state=pop
             pop = false
             main_gv.visibility = View.VISIBLE
             iv_viewpager.visibility = View.GONE
