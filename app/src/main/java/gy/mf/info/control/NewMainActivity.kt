@@ -171,6 +171,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             ran_iv.visibility = View.GONE
             xiang_iv.visibility = View.GONE
             kuai_iv.visibility = View.INVISIBLE
+            next_iv.visibility=View.GONE
         }
         bi_iv.setOnClickListener {
             img_add(now_position)

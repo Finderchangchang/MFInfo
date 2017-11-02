@@ -51,7 +51,7 @@ class MainActivity : BaseActivity(), ICheckImg {
     }
 
     override fun show_pictures2(list: MutableList<ImageDatat.DataBean.LinkBean>?) {
-         }
+    }
 
     override fun show_type_list(list: MutableList<TypeModel.Type>?) {
 
@@ -142,6 +142,8 @@ class MainActivity : BaseActivity(), ICheckImg {
     }
 
     var adapter: CommonAdapter<Img>? = null
+    var right_adapter: CommonAdapter<Img>? = null
+
     override fun initEvent() {
         var list = ArrayList<Img>()
         list.add(Img(R.mipmap.img1, "央视新闻"))
@@ -152,6 +154,16 @@ class MainActivity : BaseActivity(), ICheckImg {
         list.add(Img(R.mipmap.img6, "今日头条"))
         list.add(Img(R.mipmap.tk, "本地图库"))
         adapter = object : CommonAdapter<Img>(this, list, R.layout.item_gallery_item1) {
+            override fun convert(holder: CommonViewHolder, model: Img, p: Int) {
+                holder.setImageResource(R.id.id_index_gallery_item_image, model.id)
+                holder.setText(R.id.tv, model.name)
+
+            }
+        }
+        list = ArrayList<Img>()
+        list.add(Img(R.mipmap.wifibox, "wifiBox"))
+        list.add(Img(R.mipmap.meiboy, "MEIBOYI"))
+        right_adapter = object : CommonAdapter<Img>(this, list, R.layout.item_gallery_item1) {
             override fun convert(holder: CommonViewHolder, model: Img, p: Int) {
                 holder.setImageResource(R.id.id_index_gallery_item_image, model.id)
                 holder.setText(R.id.tv, model.name)
@@ -203,16 +215,27 @@ class MainActivity : BaseActivity(), ICheckImg {
         //购物车
         che_ll.setOnClickListener {
             if (che_click > 0) {
-                try {
-                    val packageManager = packageManager
-                    var intent = Intent()
-                    intent = packageManager.getLaunchIntentForPackage("com.ftr.wificamera.XJ_wifibox")
-                    startActivity(intent)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    val viewIntent = Intent("android.intent.action.VIEW", Uri.parse("http://baidu.com/"))
-                    startActivity(viewIntent)
+                var builder = AlertDialog.Builder(this);
+                builder.setAdapter(right_adapter) { v, vv ->
+                    try {
+                        val packageManager = packageManager
+                        var intent = Intent()
+                        var url = ""
+                        when (vv) {
+                            0 -> url = "com.ftr.wificamera.XJ_wifibox"
+                            else -> url = "com.g_zhang.MEIBOYI"
+                        }
+                        intent = packageManager.getLaunchIntentForPackage(url)
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        val viewIntent = Intent("android.intent.action.VIEW", Uri.parse("http://baidu.com/"))
+                        startActivity(viewIntent)
+                    }
+
                 }
+                builder.setOnDismissListener { hideSystemNavigationBar() }
+                builder.show();
                 che_click = 0
             } else {
                 che_click++

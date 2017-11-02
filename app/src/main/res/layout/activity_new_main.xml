@@ -19,8 +19,8 @@
         android:layout_height="match_parent" />
     <ImageView
         android:id="@+id/next_iv"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:src="@mipmap/pressed"
         android:layout_above="@+id/bi_tv"
         android:layout_marginBottom="20dp"
