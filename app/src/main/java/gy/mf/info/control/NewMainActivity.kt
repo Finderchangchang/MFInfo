@@ -73,7 +73,11 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         adapter!!.refresh(img_lists)
         firstAdapter!!.refresh(img_lists)
         iv_viewpager.adapter = firstAdapter
-        iv_viewpager.setCurrentItem(now_position, false)
+        if (now_index == 1) {
+            iv_viewpager.setCurrentItem(0, false)
+        } else {
+            iv_viewpager.setCurrentItem(now_position, false)
+        }
         canJumpPage = true;
     }
 
@@ -96,7 +100,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         type = intent.getStringExtra("type")//获得当前
         now_type = type
         start_view()
-        can_start_pop=true
+        can_start_pop = true
     }
 
     var pop = false
@@ -135,15 +139,16 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         }
         pop_timer.schedule(poptask, 1000 * 4, 1000 * 4)
     }
-    var old_pop_state=true
+
+    var old_pop_state = true
     override fun onPause() {
-        old_pop_state=pop
+        old_pop_state = pop
         pop = false
         super.onPause()
     }
 
     override fun onResume() {
-        if(old_pop_state) {
+        if (old_pop_state) {
             pop = true
         }
         super.onResume()
@@ -153,9 +158,11 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         super.onDestroy()
         //App.pop_is_show = false
     }
+
     companion object {
         var model = TypeModel()
     }
+
     var pressed = true
 
     override fun initEvent() {
@@ -171,7 +178,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             ran_iv.visibility = View.GONE
             xiang_iv.visibility = View.GONE
             kuai_iv.visibility = View.INVISIBLE
-            next_iv.visibility=View.GONE
+            next_iv.visibility = View.GONE
         }
         bi_iv.setOnClickListener {
             img_add(now_position)
@@ -226,11 +233,11 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             pressed = !pressed
 
             if (pressed) {
-                App.is_show=true
+                App.is_show = true
                 next_iv.setImageResource(R.mipmap.pressed)
-            }else{
+            } else {
                 next_iv.setImageResource(R.mipmap.next)
-                App.is_show=false
+                App.is_show = false
             }
 
             pop = !pop
@@ -266,9 +273,9 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                         }
                     }
                 }
-                if(img_lists[now_position].collection==0){
+                if (img_lists[now_position].collection == 0) {
                     jia_iv.background = getDrawable(R.mipmap.cang_s)
-                }else{
+                } else {
                     jia_iv.background = getDrawable(R.mipmap.cang)
                 }
             }
@@ -413,7 +420,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                 holder.setGImage(R.id.id_index_gallery_item_image, urls().upload_picture + model)
             }
         }
-        App.is_show=true
+        App.is_show = true
     }
 
     override fun onBackPressed() {
@@ -445,13 +452,13 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             noraml = false
         }
         if (noraml) {//单图模式
-            if(old_pop_state){
+            if (old_pop_state) {
                 pop = true
             }
             main_gv.visibility = View.GONE
             iv_viewpager.visibility = View.VISIBLE
         } else {//多图模式
-            old_pop_state=pop
+            old_pop_state = pop
             pop = false
             main_gv.visibility = View.VISIBLE
             iv_viewpager.visibility = View.GONE
