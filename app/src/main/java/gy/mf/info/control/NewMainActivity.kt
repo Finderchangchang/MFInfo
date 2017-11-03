@@ -78,7 +78,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         } else {
             iv_viewpager.setCurrentItem(now_position, false)
         }
-        canJumpPage = true;
+        canJumpPage = true
     }
 
     var now_index = 1
