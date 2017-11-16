@@ -123,7 +123,7 @@ class MainActivity : BaseActivity(), ICheckImg {
         when (position) {
             0 -> url = "cn.cntv"
             1 -> url = "com.tencent.qqlive"
-            2 -> url = "com.youku.phone"
+            2 -> url = "com.baidu.netdisk"
             3 -> url = "com.qiyi.video"
             4 -> url = "cn.kuwo.player"
             5 -> url = "com.ss.android.article.news"
@@ -148,7 +148,7 @@ class MainActivity : BaseActivity(), ICheckImg {
         var list = ArrayList<Img>()
         list.add(Img(R.mipmap.img1, "央视新闻"))
         list.add(Img(R.mipmap.img2, "腾讯视频"))
-        list.add(Img(R.mipmap.img3, "优酷"))
+        list.add(Img(R.mipmap.wp, "百度网盘"))
         list.add(Img(R.mipmap.img4, "爱奇艺"))
         list.add(Img(R.mipmap.img5, "酷我音乐"))
         list.add(Img(R.mipmap.img6, "今日头条"))

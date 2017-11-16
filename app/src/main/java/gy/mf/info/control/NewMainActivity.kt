@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 import gy.mf.info.R
 import gy.mf.info.base.App
@@ -230,17 +231,19 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         setHH(ran_iv, 90)
         setHH(xiang_iv, 60)
         next_iv.setOnClickListener {
-            pressed = !pressed
+            if (noraml) {
+                pressed = !pressed
 
-            if (pressed) {
-                App.is_show = true
-                next_iv.setImageResource(R.mipmap.pressed)
-            } else {
-                next_iv.setImageResource(R.mipmap.next)
-                App.is_show = false
+                if (pressed) {
+                    App.is_show = true
+                    next_iv.setImageResource(R.mipmap.pressed)
+                } else {
+                    next_iv.setImageResource(R.mipmap.next)
+                    App.is_show = false
+                }
+
+                pop = !pop
             }
-
-            pop = !pop
             //App.is_show = pop
         }
         iv_viewpager.offscreenPageLimit = 1
@@ -558,6 +561,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             cc.scaleType = ImageView.ScaleType.FIT_XY
             Glide.with(this)
                     .load(urls().upload_picture + img_lists!![k].picture_name)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .error(R.mipmap.defult_user)
                     .into(cc)
             var now_click = 0

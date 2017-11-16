@@ -70,9 +70,9 @@ class CheckDialogActivity : BaseActivity() {
             position = po
             list2 = list[position].data_3 as ArrayList<Data3Bean>
             if (list2.size == 0 || ("全部") != list2[0].class_name) {
-                var data3Bean = Data3Bean()
-                data3Bean.class_name = "全部"
-                list2.add(0, data3Bean)
+//                var data3Bean = Data3Bean()
+//                data3Bean.class_name = "全部"
+//                list2.add(0, data3Bean)
             }
             lv2_adapter!!.refresh(list2)
             lv1_adapter!!.refresh(list)
@@ -80,9 +80,9 @@ class CheckDialogActivity : BaseActivity() {
         if (list.size > 0) {
             list2 = list[position].data_3 as ArrayList<Data3Bean>
             if (list2.size == 0 || ("全部") != list2[0].class_name) {
-                var data3Bean = Data3Bean()
-                data3Bean.class_name = "全部"
-                list2.add(0, data3Bean)
+//                var data3Bean = Data3Bean()
+//                data3Bean.class_name = "全部"
+//                list2.add(0, data3Bean)
             }
         } else {
 
@@ -95,27 +95,27 @@ class CheckDialogActivity : BaseActivity() {
         }
         Y_listview.adapter = lv2_adapter
         Y_listview.setOnItemClickListener { parent, view, position, id ->
-            if (position == 0) {
-                var is_checked = list2[0].isCheck
-                for (ll in list2) {
-                    ll.isCheck = !is_checked
-                }
-            } else {
-                if (list2[0].isCheck) {
-                    list2[0].isCheck = !list2[0].isCheck
-                }
+//            if (position == 0) {
+//                var is_checked = list2[0].isCheck
+//                for (ll in list2) {
+//                    ll.isCheck = !is_checked
+//                }
+//            } else {
+//                if (list2[0].isCheck) {
+//                    list2[0].isCheck = !list2[0].isCheck
+//                }
                 var size = list2.size
                 var click_size = 0
                 list2[position].isCheck = !list2[position].isCheck
-                for (i in 1 until list2.size) {
-                    if (list2[i].isCheck) {
-                        click_size++
-                        if (click_size == size - 1) {
-                            list2[0].isCheck = true
-                        }
-                    }
-                }
-            }
+//                for (i in 1 until list2.size) {
+//                    if (list2[i].isCheck) {
+//                        click_size++
+//                        if (click_size == size - 1) {
+//                            list2[0].isCheck = true
+//                        }
+//                    }
+//                }
+//            }
             lv2_adapter!!.refresh(list2)
         }
     }
