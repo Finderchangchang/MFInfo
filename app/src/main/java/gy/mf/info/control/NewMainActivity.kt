@@ -63,23 +63,32 @@ class NewMainActivity : BaseActivity(), ICheckImg {
     override fun show_pictures(list: MutableList<PictureModel>?) {
         if (now_index == 1) {
             img_lists = ArrayList<PictureModel>()
-            iv_viewpager.setCurrentItem(now_position, false)
+            now_position = 0
+            try {
+                iv_viewpager.setCurrentItem(now_position, false)
+            }catch (e:Exception){
+
+            }
             main_gv.smoothScrollToPosition(0)
         }
-        img_lists.addAll(list as MutableList<PictureModel>)
-        model.link = img_lists
-
-        //firstAdapter = MainPagerAdapter(this, img_lists)
-        main_gv.getIndex(now_index, page_size, now_index * 11)
-        adapter!!.refresh(img_lists)
-        firstAdapter!!.refresh(img_lists)
-        iv_viewpager.adapter = firstAdapter
-        if (now_index == 1) {
-            iv_viewpager.setCurrentItem(0, false)
+        if (list == null || list!!.size == 0) {
+            total_num = now_position
         } else {
-            iv_viewpager.setCurrentItem(now_position, false)
+            img_lists.addAll(list as MutableList<PictureModel>)
+            model.link = img_lists
+
+            //firstAdapter = MainPagerAdapter(this, img_lists)
+            main_gv.getIndex(now_index, page_size, now_index * 11)
+            adapter!!.refresh(img_lists)
+            firstAdapter!!.refresh(img_lists)
+            iv_viewpager.adapter = firstAdapter
+            if (now_index == 1) {
+                iv_viewpager.setCurrentItem(0, false)
+            } else {
+                iv_viewpager.setCurrentItem(now_position, false)
+            }
+            canJumpPage = true
         }
-        canJumpPage = true
     }
 
     var now_index = 1
@@ -95,7 +104,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
     var mAdapter: HorizontalScrollViewAdapter? = null
     var bi_show = false
 
-
+    var total_num = 0
     override fun initViews() {
         setContentView(R.layout.activity_new_main)
         type = intent.getStringExtra("type")//获得当前
@@ -120,7 +129,13 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                     }
                     2 -> {
                         now_position++
+                        if (total_num != 0 && total_num+1 == now_position) {
+                            now_position = 0
+                        }
                         iv_viewpager.currentItem = now_position
+
+
+
                     }
                 }
             }
@@ -276,7 +291,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                         }
                     }
                 }
-                if (img_lists[now_position].collection == 0) {
+                if (img_lists.size>0&&img_lists[now_position].collection == 0) {
                     jia_iv.background = getDrawable(R.mipmap.cang_s)
                 } else {
                     jia_iv.background = getDrawable(R.mipmap.cang)
