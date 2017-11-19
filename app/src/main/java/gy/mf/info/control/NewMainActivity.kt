@@ -66,13 +66,16 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             now_position = 0
             try {
                 iv_viewpager.setCurrentItem(now_position, false)
-            }catch (e:Exception){
+            } catch (e: Exception) {
 
             }
             main_gv.smoothScrollToPosition(0)
         }
         if (list == null || list!!.size == 0) {
             total_num = now_position
+            now_position = 0
+            iv_viewpager.setCurrentItem(now_position, false)
+            Log.i("onPageSelected-position", total_num.toString())
         } else {
             img_lists.addAll(list as MutableList<PictureModel>)
             model.link = img_lists
@@ -128,14 +131,12 @@ class NewMainActivity : BaseActivity(), ICheckImg {
 
                     }
                     2 -> {
-                        now_position++
-                        if (total_num != 0 && total_num+1 == now_position) {
-                            now_position = 0
-                        }
-                        iv_viewpager.currentItem = now_position
-
-
-
+//                        if(total_num<=now_position){
+                            now_position++
+                            iv_viewpager.setCurrentItem(now_position, false)
+//                        }else{
+//                            var s=""
+//                        }
                     }
                 }
             }
@@ -264,22 +265,24 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         iv_viewpager.offscreenPageLimit = 1
         iv_viewpager.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                Log.i("now_position", position.toString() + ":" + now_position)
-                if (!is_on_result) {
-                    if (noraml && position < now_position) {
-                        iv_viewpager.currentItem = now_position
-                    }
-                } else {
-                    is_on_result = false
-                }
+                Log.i("tag-now_position", position.toString() + ":" + now_position)
+//                if (!is_on_result) {
+//                    if (noraml && position < now_position) {
+//                        iv_viewpager.currentItem = now_position
+//                    }
+//                } else {
+//                    is_on_result = false
+//                }
                 now_position = position
                 if (isLastPage && isDragPage && positionOffsetPixels == 0) {   //当前页是最后一页，并且是拖动状态，并且像素偏移量为0
                     if (canJumpPage) {
                         canJumpPage = false;
-                        now_index++
-                        Log.i("now_position", now_index.toString() + ":" + now_position)
-                        //dialog!!.show()
-                        CheckImgListener(this@NewMainActivity).getImgs(now_type, now_index, level)
+                        if (total_num != now_position) {
+                            now_index++
+                            Log.i("now_position", now_index.toString() + ":" + now_position)
+                            //dialog!!.show()
+                            CheckImgListener(this@NewMainActivity).getImgs(now_type, now_index, level)
+                        }
                     }
                 }
                 if (noraml && img_lists!!.size > now_position) {
@@ -291,7 +294,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                         }
                     }
                 }
-                if (img_lists.size>0&&img_lists[now_position].collection == 0) {
+                if (img_lists.size > 0 && img_lists[now_position].collection == 0) {
                     jia_iv.background = getDrawable(R.mipmap.cang_s)
                 } else {
                     jia_iv.background = getDrawable(R.mipmap.cang)
@@ -299,8 +302,8 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             }
 
             override fun onPageSelected(position: Int) {
-                Log.i("now_position", position.toString())
-                isLastPage = position == img_lists!!.size - 1;
+                isLastPage = position == img_lists!!.size - 1
+                Log.i("onPageSelected-position", position.toString() + ":" + total_num)
             }
 
             override fun onPageScrollStateChanged(state: Int) {
