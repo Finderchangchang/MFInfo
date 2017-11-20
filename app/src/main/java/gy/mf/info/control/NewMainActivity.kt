@@ -465,7 +465,6 @@ class NewMainActivity : BaseActivity(), ICheckImg {
 
     var type = "1"//一级分类
     var noraml = false//true:单张图false:多图
-    var change_click = false//图片切换点击
     fun img_show() {
         if (type.toInt() < 4) {
             noraml = !noraml
@@ -604,6 +603,9 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == 11) {
             now_type = data!!.getStringExtra("result")
+            noraml = false//true:单张图false:多图
+            img_show()
+            pop = true
             if (!TextUtils.isEmpty(now_type)) {
                 if (type.toInt() < 4) {
                     level = "3"
