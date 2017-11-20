@@ -50,7 +50,7 @@ class ImgListActivity : BaseActivity(), ICheckImg {
     }
 
     override fun show_pictures2(list: MutableList<ImageDatat.DataBean.LinkBean>?) {
-        }
+    }
 
     override fun show_type_list(list: MutableList<TypeModel.Type>?) {
 
@@ -81,21 +81,21 @@ class ImgListActivity : BaseActivity(), ICheckImg {
         load_gg = intent.getBooleanExtra("load_gg", false)
         if (load_gg) {
             //显示当前
-            var now_position=Utils.getCache("now_position")
-            if(TextUtils.isEmpty(now_position)){
+            var now_position = Utils.getCache("now_position")
+            if (TextUtils.isEmpty(now_position)) {
                 OkGo.post("http://restapi.amap.com/v3/ip?key=3f38f8f2d8b52d9bdf3d6121e447ef26")
                         .execute(object : StringCallback() {
                             override fun onSuccess(model: String, call: Call?, response: Response?) {
                                 var model = Gson().fromJson(model, NowPosition::class.java)
                                 CheckImgListener(this@ImgListActivity).getImgs(model.adcode, 1, "1")
-                                Utils.putCache("now_position",model.adcode)
+                                Utils.putCache("now_position", model.adcode)
                             }
 
                             override fun onError(call: Call?, response: Response?, e: Exception?) {
                                 CheckImgListener(this@ImgListActivity).getImgs("130600", 1, "1")
                             }
                         })
-            }else{
+            } else {
                 CheckImgListener(this@ImgListActivity).getImgs(now_position, 1, "1")
             }
 
@@ -197,10 +197,12 @@ class ImgListActivity : BaseActivity(), ICheckImg {
         //加载传递过来的数据
         if (model!!.link != null) {
             img_titles.addAll(model!!.link as MutableList)
-            for (i in 0..model!!.link!!.size - 1) {
-                var modd = model!!.link!![i]
-                titles.add(modd.picture_url)
-                images.add(modd.picture_name)
+            for (i in 0 until model!!.link!!.size) {
+                if (i < 180) {
+                    var modd = model!!.link!![i]
+                    titles.add(modd.picture_url)
+                    images.add(modd.picture_name)
+                }
             }
         }
         banner!!.setImageLoader(GlideImageLoader())
