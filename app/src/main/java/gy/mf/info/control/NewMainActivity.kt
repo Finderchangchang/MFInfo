@@ -132,8 +132,8 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                     }
                     2 -> {
 //                        if(total_num<=now_position){
-                            now_position++
-                            iv_viewpager.setCurrentItem(now_position, false)
+                        now_position++
+                        iv_viewpager.setCurrentItem(now_position, false)
 //                        }else{
 //                            var s=""
 //                        }
@@ -288,16 +288,16 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                 if (noraml && img_lists!!.size > now_position) {
                     for (i in position_list) {
                         if (position == i) {
-                            bi_iv.background = getDrawable(R.mipmap.bi_s)
+                            bi_iv.background = resources.getDrawable(R.mipmap.bi_s)
                         } else {
-                            bi_iv.background = getDrawable(R.mipmap.bi)
+                            bi_iv.background = resources.getDrawable(R.mipmap.bi)
                         }
                     }
                 }
                 if (img_lists.size > 0 && img_lists[now_position].collection == 0) {
-                    jia_iv.background = getDrawable(R.mipmap.cang_s)
+                    jia_iv.background = resources.getDrawable(R.mipmap.cang_s)
                 } else {
-                    jia_iv.background = getDrawable(R.mipmap.cang)
+                    jia_iv.background = resources.getDrawable(R.mipmap.cang)
                 }
             }
 
@@ -373,7 +373,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
                 if (sc_result) {//收藏
                     var model = img_lists!![now_position]
                     model.collection = 1
-                    jia_iv.background = getDrawable(R.mipmap.cang)
+                    jia_iv.background = resources.getDrawable(R.mipmap.cang)
                     CheckImgListener(this).addImgs(img_lists!![now_position].picture_id, "add")
                 } else {//取消收藏
                     CheckImgListener(this).addImgs(img_lists!![now_position].picture_id, "del")

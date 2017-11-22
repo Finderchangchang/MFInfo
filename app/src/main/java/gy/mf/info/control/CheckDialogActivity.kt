@@ -3,6 +3,7 @@ package gy.mf.info.control
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 
 import gy.mf.info.R
 import gy.mf.info.base.BaseActivity
@@ -33,8 +34,12 @@ class CheckDialogActivity : BaseActivity() {
                 }
                 result_ids += key
             }
-            setResult(11, Intent().putExtra("result", result_ids))
-            finish()
+            if(!TextUtils.isEmpty(result_ids)) {
+                setResult(11, Intent().putExtra("result", result_ids))
+                finish()
+            }else{
+                finish()
+            }
         }
     }
 
