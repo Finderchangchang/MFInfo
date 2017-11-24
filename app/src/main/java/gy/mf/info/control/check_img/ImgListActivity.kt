@@ -198,7 +198,7 @@ class ImgListActivity : BaseActivity(), ICheckImg {
         if (model!!.link != null) {
             img_titles.addAll(model!!.link as MutableList)
             for (i in 0 until model!!.link!!.size) {
-                if (i < 180) {
+                if (i < 80) {
                     var modd = model!!.link!![i]
                     titles.add(modd.picture_url)
                     images.add(modd.picture_name)
