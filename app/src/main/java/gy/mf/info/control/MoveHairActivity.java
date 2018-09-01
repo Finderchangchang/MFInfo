@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 import gy.mf.info.R;
 
@@ -43,11 +46,29 @@ public class MoveHairActivity extends AppCompatActivity {
 
                 Bundle b = new Bundle();
                 b.putByteArray("bitmap", bytes);
-                startActivity(new Intent(MoveHairActivity.this, TrueImgActivity.class).putExtra("bt", bytes));
+                save_img(FILE_PATH,bt);
+                startActivity(new Intent(MoveHairActivity.this, TrueImgActivity.class).putExtra("bt", FILE_PATH));
             }
         });
     }
-
+    String FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/cache/pics";
+    void save_img(String url,Bitmap bitmap){
+        try {
+            // 创建文件流，指向该路径，文件名叫做fileName
+            File file = new File(FILE_PATH, "demo.png");
+            // file其实是图片，它的父级File是文件夹，判断一下文件夹是否存在，如果不存在，创建文件夹
+            File fileParent = file.getParentFile();
+            if (!fileParent.exists()) {
+                // 文件夹不存在
+                fileParent.mkdirs();// 创建文件夹
+            }
+            // 将图片保存到本地
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100,
+                    new FileOutputStream(file));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private Bitmap mergeBitmap(Bitmap firstBitmap, Bitmap secondBitmap) {
         Bitmap bitmap = Bitmap.createBitmap(firstBitmap.getWidth(), firstBitmap.getHeight(),
                 firstBitmap.getConfig());
