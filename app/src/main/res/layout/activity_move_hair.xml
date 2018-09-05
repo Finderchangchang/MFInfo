@@ -4,21 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ImageView
         android:id="@+id/bg_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/head"/>
+        android:src="@mipmap/head" />
+
     <gy.mf.info.configs.BaseDragZoomImageView
         android:id="@+id/hair_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="matrix"
-        android:scrollX="-70dp"
-        android:scrollY="-140dp"
-        android:src="@mipmap/hair"/>
+        android:scrollX="10dp"
+        android:scrollY="-40dp"
+        android:src="@mipmap/hair" />
+
     <Button
         android:id="@+id/next_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/hl_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/hl_btn"
+        android:layout_marginBottom="21dp"
+        android:text="下一步"/>
+
+    <Button
+        android:id="@+id/hl_btn"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="78dp"
+        android:layout_marginEnd="132dp"
+        android:layout_marginRight="132dp"
+        android:text="换脸" />
 </RelativeLayout>

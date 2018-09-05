@@ -33,4 +33,8 @@
         <!--设置背景的暗色调-->
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+    <style name="CustomDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 </resources>
