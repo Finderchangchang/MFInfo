@@ -2,8 +2,10 @@ package gy.mf.info.control
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Message
+import android.support.annotation.RequiresApi
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -182,6 +184,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
 
     var pressed = true
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     override fun initEvent() {
 
         if (type.toInt() < 4) {
@@ -212,7 +215,9 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         iv_viewpager.adapter = firstAdapter
         img_show()
         //                    jia_iv.background = getDrawable(R.mipmap.cang)
-
+        huan_iv.setOnClickListener {
+            startActivity(Intent(this@NewMainActivity, MoveHairActivity::class.java))
+        }
         ccAdapter = HorizontalAdapter(imgs, this)
 
         val firstManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)

@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.support.annotation.RequiresApi
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.bumptech.glide.Glide
@@ -232,6 +233,9 @@ class CheckImgActivity : BaseActivity(), ICheckImg {
                 builder.show()
             }
         }
+        huan_iv.setOnClickListener{
+            startActivity(Intent(this@CheckImgActivity,MoveHairActivity::class.java))
+        }
         big_type_iv.setOnClickListener {
             var type_model = TotalModelMA.TypeModel()
             if (type_list.size > 0) {
@@ -329,7 +333,8 @@ class CheckImgActivity : BaseActivity(), ICheckImg {
         }
     }
 
-    /**
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+            /**
      * api 19以后
      *  4.4版本后 调用系统相机返回的不在是真实的uri 而是经过封装过后的uri，
      * 所以要对其记性数据解析，然后在调用displayImage方法尽心显示
@@ -478,6 +483,7 @@ class CheckImgActivity : BaseActivity(), ICheckImg {
     private var isLastPage = false
     private var isDragPage = false
     private var canJumpPage = true
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     override fun initEvent() {
         //handleEvent()
         type = intent.getStringExtra("type")//获得当前

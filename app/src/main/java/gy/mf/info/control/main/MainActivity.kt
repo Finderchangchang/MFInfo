@@ -78,7 +78,7 @@ class MainActivity : BaseActivity(), ICheckImg {
                 .getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val runningService = myManager
                 .getRunningServices(30) as ArrayList<ActivityManager.RunningServiceInfo>
-        for (i in 0..runningService.size - 1) {
+        for (i in 0 until runningService.size) {
             var name = runningService.get(i).service.getClassName().toString()
             if (runningService.get(i).service.getClassName().toString()
                     .equals(ServiceName)) {

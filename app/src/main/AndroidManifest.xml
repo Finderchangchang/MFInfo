@@ -42,7 +42,13 @@
         tools:replace="label,allowBackup"
         android:theme="@style/AppTheme">
         <activity android:name=".control.login.LoginActivity" />
-        <activity android:name=".control.main.MainActivity"></activity>
+        <activity android:name=".control.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service android:name=".control.KeepLiveServices" />
 
@@ -95,11 +101,7 @@
         <activity android:name=".control.ImgActivity" />
         <activity android:name=".control.NewMainActivity" />
         <activity android:name=".control.MoveHairActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".control.TrueImgActivity"></activity>
         <!--<provider-->
