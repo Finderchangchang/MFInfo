@@ -20,7 +20,7 @@ class urls {
     val user_forum_picture = total + "user_forum_picture.php"//添加图片操作
     var upload_picture = total + "upload/"//添加图片操作
     var user_password = total + "user_password.php"//修改密码
-
+    var main_bg=total+"user_homepage.php"//获得首页背景图
     /**
      * md5加密
      * */

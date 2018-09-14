@@ -1,8 +1,10 @@
 package gy.mf.info.control
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.annotation.RequiresApi
@@ -32,6 +34,9 @@ import gy.mf.info.model.PictureModel
 import gy.mf.info.model.TypeModel
 import gy.mf.info.util.urls
 import kotlinx.android.synthetic.main.activity_new_main.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 
 class NewMainActivity : BaseActivity(), ICheckImg {
@@ -73,7 +78,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             }
             main_gv.smoothScrollToPosition(0)
         }
-        if (list == null || list!!.size == 0) {
+        if (list == null || list.size == 0) {
             total_num = now_position
             now_position = 0
             iv_viewpager.setCurrentItem(now_position, false)
@@ -182,6 +187,29 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         var model = TypeModel()
     }
 
+    internal var FILE_PATH: String=""
+
+    internal fun save_img(url: String, bitmap: Bitmap): Boolean {
+        try {
+            FILE_PATH = cacheDir.toString() + "/cache/pics"
+            // 创建文件流，指向该路径，文件名叫做fileName
+            val file = File(FILE_PATH, "demo.png")
+            // file其实是图片，它的父级File是文件夹，判断一下文件夹是否存在，如果不存在，创建文件夹
+            val fileParent = file.parentFile
+            if (!fileParent.exists()) {
+                // 文件夹不存在
+                fileParent.mkdirs()// 创建文件夹
+            }
+            // 将图片保存到本地
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100,
+                    FileOutputStream(file))
+            return true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
+
+    }
     var pressed = true
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -215,9 +243,7 @@ class NewMainActivity : BaseActivity(), ICheckImg {
         iv_viewpager.adapter = firstAdapter
         img_show()
         //                    jia_iv.background = getDrawable(R.mipmap.cang)
-        huan_iv.setOnClickListener {
-            startActivity(Intent(this@NewMainActivity, MoveHairActivity::class.java))
-        }
+
         ccAdapter = HorizontalAdapter(imgs, this)
 
         val firstManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -389,8 +415,12 @@ class NewMainActivity : BaseActivity(), ICheckImg {
             if (img_lists != null && img_lists!!.size > 0) {
                 startActivity(Intent(this, ImgDetailsActivity::class.java)
                         .putExtra("position", now_position)
-                        .putExtra("model", img_lists!![now_position]))
+                        .putExtra("model", img_lists[now_position]))
             }
+        }
+        huan_iv.setOnClickListener {
+            startActivity(Intent(this@NewMainActivity, ChangeFaceActivity::class.java)
+                    .putExtra("url", urls().upload_picture +img_lists[now_position].picture_name))
         }
         big_type_iv.setOnClickListener {
             skip()

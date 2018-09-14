@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/back_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/head" />
+
+    <ImageView
+        android:id="@+id/bg_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
+
+
+    <Button
+        android:id="@+id/next_btn"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/hl_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/hl_btn"
+        android:layout_marginBottom="51dp"
+        android:text="下一步" />
+
+    <Button
+        android:id="@+id/hl_btn"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="98dp"
+        android:layout_marginEnd="132dp"
+        android:layout_marginRight="132dp"
+        android:text="换脸" />
+
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/seekBar"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/left_iv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:padding="5dp"
+            android:src="@mipmap/head" />
+
+        <ImageView
+            android:id="@+id/right_iv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:padding="5dp"
+            android:src="@mipmap/head" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="美白"
+            android:layout_marginLeft="10dp"/>
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+
+</RelativeLayout>

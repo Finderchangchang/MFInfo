@@ -15,7 +15,11 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.jaiky.imagespickers.ImageConfig;
 import com.jaiky.imagespickers.ImageSelector;
 import com.jaiky.imagespickers.ImageSelectorActivity;
@@ -30,6 +34,7 @@ import com.mylhyl.circledialog.view.listener.OnCreateBodyViewListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +42,8 @@ import java.util.List;
 
 import gy.mf.info.R;
 import gy.mf.info.configs.LoadingView;
+import gy.mf.info.method.CommonAdapter;
+import gy.mf.info.method.CommonViewHolder;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -45,43 +52,53 @@ public class MoveHairActivity extends AppCompatActivity {
     ImageView hair_img;
     Button next_btn;
     Button hl_btn;
-    ImageConfig imageConfig;
+    GridView gv;
+    String url;
+    CommonAdapter<String> commonAdapter;
+    List<String> list;
+    /**
+     * 从本地SD卡获取缓存的bitmap
+     */
+    public Bitmap getBitmapFromLocal(String fileName) {
+        try {
+            File file = new File(url, fileName);
+            if (file.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(
+                        file));
+                return bitmap;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_move_hair);
-        imageConfig = new ImageConfig.Builder(new GlideLoader())
-                .steepToolBarColor(getResources().getColor(R.color.blue))
-                .titleBgColor(getResources().getColor(R.color.blue))
-                .titleSubmitTextColor(getResources().getColor(R.color.white))
-                .titleTextColor(getResources().getColor(R.color.white))
-                // 开启单选   （默认为多选）
-                .singleSelect()
-                // 开启拍照功能 （默认关闭）
-                //.showCamera()
-                // 拍照后存放的图片路径（默认 /temp/picture） （会自动创建）
-                .filePath("/ImageSelector/Pictures")
-                .build();
-
-
+        url=getIntent().getStringExtra("url");
+        gv= (GridView) findViewById(R.id.grid);
+        commonAdapter=new CommonAdapter<String>(this,list,R.layout.item_hair) {
+            @Override
+            public void convert(CommonViewHolder holder, String s, int position) {
+                holder.setGImage(R.id.iv,s);
+            }
+        };
+        gv.setAdapter(commonAdapter);
         hair_img = (ImageView) findViewById(R.id.hair_img);
         bg_img = (ImageView) findViewById(R.id.bg_img);
+
+        bg_img.setImageBitmap(getBitmapFromLocal("demo.png"));
+
         next_btn = (Button) findViewById(R.id.next_btn);
-        hl_btn = (Button) findViewById(R.id.hl_btn);
-        hl_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ImageSelector.open(MoveHairActivity.this, imageConfig);   // 开启图片选择器
-            }
-        });
+
         next_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hair_img.setDrawingCacheEnabled(true);
                 Bitmap hair_bitmap = Bitmap.createBitmap(hair_img.getDrawingCache());
                 hair_img.setDrawingCacheEnabled(false);
-                bg_img.setDrawingCacheEnabled(true);
-                Bitmap bg_bitmap = Bitmap.createBitmap(bg_img.getDrawingCache());
+                bg_img.setDrawingCacheEnabled(true);Bitmap bg_bitmap = Bitmap.createBitmap(bg_img.getDrawingCache());
                 bg_img.setDrawingCacheEnabled(false);
 
                 Bitmap bt = mergeBitmap(bg_bitmap, hair_bitmap);
@@ -120,49 +137,8 @@ public class MoveHairActivity extends AppCompatActivity {
             return false;
         }
     }
-    DialogFragment dialog;
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ImageSelector.IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
 
-            // Get Image Path List
-            List<String> imagesPath = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
 
-            if (imagesPath != null && imagesPath.size() > 0) {
-                dialog=new CircleDialog.Builder()
-                        .setProgressText("登录中...")
-                        .setProgressStyle(ProgressParams.STYLE_SPINNER)
-//                        .setProgressDrawable(R.drawable.bg_progress_s)
-                        .show(getSupportFragmentManager());
-                String url = imagesPath.get(0);
-                Bitmap bmp = BitmapFactory.decodeFile(url);
-                bg_img.setDrawingCacheEnabled(true);
-                Bitmap bmp2 = Bitmap.createBitmap(bg_img.getDrawingCache());
-                bg_img.setDrawingCacheEnabled(false);
-
-                String i1 = bitmapToBase64(bmp);
-                String i2 = bitmapToBase64(bmp2);
-                OkGo.post("http://47.95.210.218:81/upload")
-                        .params("head", i2)
-                        .params("face", i1)
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onSuccess(String s, Call call, Response response) {
-                                bg_img.setImageBitmap(base64ToBitmap(s));
-                                dialog.dismiss();
-                            }
-
-                            @Override
-                            public void onError(Call call, Response response, Exception e) {
-                                super.onError(call, response, e);
-                                String mye = e.getMessage();
-                                dialog.dismiss();
-                            }
-                        });
-            }
-        }
-    }
 
     private Bitmap mergeBitmap(Bitmap firstBitmap, Bitmap secondBitmap) {
         Bitmap bitmap = Bitmap.createBitmap(firstBitmap.getWidth(), firstBitmap.getHeight(),
@@ -217,16 +193,7 @@ public class MoveHairActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * base64转为bitmap
-     *
-     * @param base64Data
-     * @return
-     */
-    public static Bitmap base64ToBitmap(String base64Data) {
-        byte[] bytes = Base64.decode(base64Data, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-    }
+
 
     //把bitmap转换成String
     public static String bitmapToString(String filePath) {
